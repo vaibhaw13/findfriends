@@ -10,26 +10,25 @@ var express = require('express'),
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/local')
   .then(() => {
-    console.log("Successfully connected to MongoDB.");    
+    console.log("Successfully connected to MongoDB.");  
+  /*To put some blog and comment data in my MongoDB 
+  
+  //To be called only once 
   initial();
+  
+  */
   }).catch(err => {
     console.log('Could not connect to MongoDB.');
     process.exit();
 });
 
-
+// To parse my REST request coming from front-end
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
-// var routes = require('./api/routes/userActionRoutes'); //importing route
-// routes(app); //register the rout
-
-// require('./api/routes/userActionRoutes')(app); //importing route
-
+// Routing pattern to be called from the UI
 const userAction = require('./api/controllers/userActionController');
 
-  // todoList Routes api\controllers\userActionController.js
 app.route('/users/comment')
   .get(userAction.list_all_comments)
   .post(userAction.post_a_comment);
@@ -44,25 +43,14 @@ app.listen(port);
 
 console.log('RESTful API server started on: ' + port);
 
-function initial(){
-  Comments.create({
-    id: 1,
-    userId: 20,
-    comment: "Comment1",
-    blogId : 30
-  });
-  
-  Comments.create({
-    id: 2,
-    userId: 21,
-    comment: "Comment2",
-    blogId : 30  
-  });
-  
-  Comments.create({
-    id: 3,
-    userId: 22,
-    comment: "Comment3",
-    blogId : 31 
-  });
-}
+// Intializing my DB with some data
+// function initial(){
+//   for(let i=3;i<=40;i++){
+    // Comments.create({
+    //   id: i + 1,
+    //   userId: 20 + i,
+    //   comment: "Comment" + i,
+    //   blogId : 30 + Math.floor(Math.random() * 6)
+    // });
+//   }
+// }
